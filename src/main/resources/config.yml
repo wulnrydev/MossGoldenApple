@@ -1,0 +1,182 @@
+# ==========================================================================
+#  MossGoldenApple  |  yapimci: wulnrydev
+#  Renk destegi: Standart kodlar (&7, &c ...) + HEX (&#RRGGBB) tam desteklidir.
+#
+#  Sabit renk semasi (istege gore degistirilebilir):
+#    Normal metin : &7        (Gri)
+#    Vurgu 1      : &#00D420   (Yesil)
+#    Vurgu 2      : &#ffd500   (Altin/Sari)
+# ==========================================================================
+
+# Config surumu - dokunmayin (otomatik guncelleme kontrolu icin).
+config-version: 1
+
+# ------------------------------------------------------------------
+#  URETIM AYARLARI (Maliyet mantigi)
+#  1 adet altin elma = 18 altin kulcesi + 1 elma
+#  Asagidaki degerler "1 adet" icin temel maliyettir; katlari otomatik hesaplanir.
+# ------------------------------------------------------------------
+recipe:
+  gold-per-apple: 18   # 1 altin elma icin gereken altin kulcesi
+  apple-per-apple: 1   # 1 altin elma icin gereken normal elma
+
+# ------------------------------------------------------------------
+#  VANILLA CRAFT ENGELI
+# ------------------------------------------------------------------
+block-vanilla-craft: true
+
+# ------------------------------------------------------------------
+#  SESLER  (Sound isimleri: Bukkit Sound enum'una gore, ornek: ENTITY_PLAYER_LEVELUP)
+# ------------------------------------------------------------------
+sounds:
+  open:
+    enabled: true
+    sound: BLOCK_CHEST_OPEN
+    volume: 0.6
+    pitch: 1.2
+  success:
+    enabled: true
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 0.8
+    pitch: 1.0
+  fail:
+    enabled: true
+    sound: ENTITY_VILLAGER_NO
+    volume: 0.8
+    pitch: 1.0
+
+# ------------------------------------------------------------------
+#  MENU (GUI) GORUNUMU
+# ------------------------------------------------------------------
+gui:
+  # Baslik &0 (siyah) ile baslamalidir.
+  title: "&0&lAltin Elma Uretimi"
+  # Satir sayisi (1-6). 9'un katini otomatik olarak boyut yapar.
+  rows: 5
+
+  # Bos slotlari dolduran cam panel.
+  filler:
+    enabled: true
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+
+  # Bilgi / aciklama esyasi.
+  info-item:
+    enabled: true
+    slot: 4
+    material: BOOK
+    name: "&#ffd500&lBilgi &7| &fNasil Calisir?"
+    lore:
+      - "&7Altin elmalar artik &#00D420calisma masasinda &7yapilamaz."
+      - "&7Uretim yalnizca bu menu uzerinden gerceklesir."
+      - ""
+      - "&#ffd5001 adet &7Altin Elma icin gerekli:"
+      - "  &8• &#00D420%gold_per_apple% &7Altin Kulcesi"
+      - "  &8• &#00D420%apple_per_apple% &7Elma"
+      - ""
+      - "&7Envanterindeki mevcut materyaller:"
+      - "  &8• &#ffd500%have_gold% &7Altin Kulcesi"
+      - "  &8• &#ffd500%have_apple% &7Elma"
+
+  # Uretim secenekleri. Her secenek istediginiz slota konabilir.
+  # produce : bir tiklamada uretilecek altin elma adedi
+  # icon    : menudeki gorsel esya
+  options:
+    x1:
+      enabled: true
+      slot: 20
+      produce: 1
+      icon: GOLDEN_APPLE
+      name: "&#ffd500&l1'li Altin Elma"
+    x8:
+      enabled: true
+      slot: 21
+      produce: 8
+      icon: GOLDEN_APPLE
+      name: "&#ffd500&l8'li Altin Elma"
+    x16:
+      enabled: true
+      slot: 22
+      produce: 16
+      icon: GOLDEN_APPLE
+      name: "&#ffd500&l16'li Altin Elma"
+    x32:
+      enabled: true
+      slot: 23
+      produce: 32
+      icon: GOLDEN_APPLE
+      name: "&#ffd500&l32'li Altin Elma"
+    x64:
+      enabled: true
+      slot: 24
+      produce: 64
+      icon: GOLDEN_APPLE
+      name: "&#ffd500&l64'lu Altin Elma"
+
+  # "Hepsini Yap" butonu - envanterdeki tum uygun materyali harcar.
+  craft-all:
+    enabled: true
+    slot: 44
+    icon: GOLD_BLOCK
+    name: "&#00D420&lHEPSINI YAP"
+    lore:
+      - "&7Envanterindeki tum materyalleri kullanarak"
+      - "&7uretebildigin &#ffd500maksimum &7altin elmayi verir."
+      - ""
+      - "&7Su an uretebilecegin miktar: &#00D420%craftable% adet"
+
+  # "Ana Menu" butonu - tiklaninca menu kapanir ve asagidaki komut oyuncu
+  # adina calistirilir (varsayilan: /anamenu). Sunucunuzdaki ana menu
+  # plugininin komutuna gore 'command' degerini degistirin.
+  back-button:
+    enabled: true
+    slot: 40           # En alt orta (5 satirli menu icin)
+    icon: ARROW
+    command: "anamenu"
+    name: "&#00D420&lAna Menu"
+    lore:
+      - "&7Tiklayarak &#00D420ana menuye &7geri don."
+
+  # Tum uretim seceneklerinde ORTAK kullanilan lore sablonu.
+  # Placeholder'lar:
+  #   %produce%    -> uretilecek adet
+  #   %gold_cost%  -> toplam altin maliyeti
+  #   %apple_cost% -> toplam elma maliyeti
+  #   %have_gold%  -> envanterdeki altin
+  #   %have_apple% -> envanterdeki elma
+  #   %status%     -> hazir / yetersiz durum satiri (asagidan gelir)
+  option-lore:
+    - "&7Gerekli materyaller:"
+    - "  &8• &#ffd500%gold_cost% &7Altin Kulcesi"
+    - "  &8• &#ffd500%apple_cost% &7Elma"
+    - ""
+    - "&7Envanterinde: &#ffd500%have_gold%&7 altin, &#ffd500%have_apple%&7 elma"
+    - ""
+    - "%status%"
+
+  # Durum gostergesi satirlari.
+  status:
+    ready: "&#00D420&l[ HAZIR ] &7» Tiklayarak uret"
+    insufficient: "&c&l[ YETERSIZ MATERYAL ]"
+    # Yeterli materyal varsa ikon parlasin mi?
+    glow-when-ready: true
+
+# ------------------------------------------------------------------
+#  MESAJLAR
+# ------------------------------------------------------------------
+messages:
+  prefix: "&#ffd500Moss&#00D420Apple &8» &r"
+  # Vanilla craft engellendiginde:
+  vanilla-blocked: "&7Altin elmanin normal olarak craftlanmasi kapatilmistir, lutfen &#00D420/altinelma &7komutunu kullanin."
+  # Konsol komutu denedi:
+  players-only: "&cBu komut yalnizca oyuncular tarafindan kullanilabilir."
+  # Izin yok:
+  no-permission: "&cBu islemi yapmak icin yetkin bulunmuyor."
+  # Basarili uretim (%amount% -> uretilen adet):
+  craft-success: "&#00D420%amount% &7adet altin elma basariyla uretildi."
+  # Yetersiz materyal:
+  not-enough: "&7Bu uretim icin yeterli materyalin yok. &#ffd500%gold_cost%&7 altin ve &#ffd500%apple_cost%&7 elma gerekli."
+  # Envanter dolu, yere dusenler:
+  inventory-full: "&7Envanterin dolu oldugu icin bazi esyalar &#ffd500yere dusuruldu."
+  # Config yeniden yuklendi:
+  reloaded: "&#00D420Config basariyla yeniden yuklendi."

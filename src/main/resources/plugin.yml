@@ -1,0 +1,21 @@
+name: MossGoldenApple
+version: '${project.version}'
+main: dev.wulnrydev.mossgoldenapple.MossGoldenApple
+api-version: '1.20'
+author: wulnrydev
+description: Towny odakli, performans-kritik altin elma uretim eklentisi.
+website: https://wulnry.dev
+
+commands:
+  altinelma:
+    description: Altin Elma uretim menusunu acar.
+    usage: /<command>
+    aliases: [goldenapple, gapple, altınelma]
+
+permissions:
+  mossgoldenapple.use:
+    description: Altin elma uretim menusunu kullanma izni.
+    default: true
+  mossgoldenapple.reload:
+    description: Eklenti config dosyasini yeniden yukleme izni.
+    default: op
